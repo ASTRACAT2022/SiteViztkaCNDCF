@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTRACAT International - Бесплатный VPN и ускорение трафика</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #000000;
+            --gray-1: #111111;
+            --gray-2: #222222;
+            --gray-3: #333333;
+            --gray-6: #666666;
+            --gray-9: #999999;
+            --gray-c: #cccccc;
+            --white: #ffffff;
+            --primary: #0070f3;
+            --vercel-blue: #0070f3;
+            --free-green: #00cc66;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--gray-c);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-2);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--vercel-blue);
+        }
+        
+        .free-badge {
+            background-color: var(--free-green);
+            color: var(--black);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--gray-9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: var(--white);
+        }
+        
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-2);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--gray-9);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--vercel-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #0061d5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-6);
+            color: var(--gray-c);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--gray-2);
+            border-color: var(--gray-c);
+            color: var(--white);
+        }
+        
+        .btn-free {
+            background-color: var(--free-green);
+            color: var(--black);
+        }
+        
+        .btn-free:hover {
+            background-color: #00b359;
+            color: var(--black);
+        }
+        
+        .features {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--gray-2);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 50px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--gray-1);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray-2);
+            position: relative;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 112, 243, 0.1);
+            border-color: var(--vercel-blue);
+        }
+        
+        .free-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--free-green);
+            color: var(--black);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            color: var(--vercel-blue);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--gray-9);
+        }
+        
+        .telegram-embed {
+            background-color: var(--gray-1);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 800px;
+            border: 1px solid var(--gray-2);
+            text-align: center;
+        }
+        
+        .telegram-embed h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .telegram-embed p {
+            margin-bottom: 20px;
+            color: var(--gray-9);
+        }
+        
+        .telegram-logo {
+            color: #0088cc;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--gray-1);
+            border-radius: 8px;
+            margin: 30px 0;
+            border: 1px solid var(--gray-2);
+        }
+        
+        .status a {
+            color: var(--vercel-blue);
+            text-decoration: none;
+        }
+        
+        .status a:hover {
+            text-decoration: underline;
+        }
+        
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .support {
+            text-align: center;
+            padding: 80px 0;
+            background-color: var(--gray-1);
+            border-top: 1px solid var(--gray-2);
+            border-bottom: 1px solid var(--gray-2);
+        }
+        
+        .support-box {
+            background-color: var(--gray-2);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid var(--gray-3);
+        }
+        
+        .support-box p {
+            margin-bottom: 20px;
+            color: var(--gray-c);
+        }
+        
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--gray-6);
+            font-size: 14px;
+        }
+        
+        /* Стили для секции теста скорости */
+        .speedtest {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--gray-2);
+        }
+        
+        .speedtest-container {
+            background-color: var(--gray-1);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid var(--gray-2);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .speedtest-container h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .speedtest-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            color: var(--gray-9);
+        }
+        
+        .speedtest-info div {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .speedtest-info strong {
+            color: var(--white);
+            display: block;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: var(--gray-3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-bar div {
+            height: 100%;
+            background-color: var(--vercel-blue);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .speedtest-results {
+            display: none;
+            margin-top: 30px;
+            color: var(--gray-9);
+        }
+        
+        .speedtest-results div {
+            margin: 10px 0;
+        }
+        
+        .speedtest-results strong {
+            color: var(--white);
+            font-size: 20px;
+        }
+        
+        .btn-stop {
+            background-color: #e53e3e;
+            color: var(--white);
+        }
+        
+        .btn-stop:hover {
+            background-color: #c53030;
+        }
+        
+        .spinner {
+            display: none;
+            border: 4px solid var(--gray-6);
+            border-top: 4px solid var(--vercel-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .speedtest-info div {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span>ASTRACAT</span> International
+                <span class="free-badge">БЕСПЛАТНО</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Услуги</a></li>
+                    <li><a href="#speedtest">Тест скорости</a></li>
+                    <li><a href="#telegram">Новости</a></li>
+                    <li><a href="#status">Статус</a></li>
+                    <li><a href="#support">Поддержка</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Бесплатный VPN и ускорение трафика</h1>
+            <p>Полностью бесплатный доступ к нашим серверам в Нидерландах и Финляндии. Без скрытых платежей, без подписок — просто качественный сервис.</p>
+            <a href="https://t.me/astracatvpnX_bot" class="btn btn-free">Получить бесплатный доступ</a>
+            <a href="#features" class="btn btn-outline">Как это работает</a>
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Наши бесплатные услуги</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="free-tag">БЕСПЛАТНО</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>VPN сервис</h3>
+                    <p>Полностью бесплатный VPN с серверами в Нидерландах и Финляндии. Без ограничений по трафику и скорости. Ваша анонимность — наш приоритет.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="free-tag">БЕСПЛАТНО</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Прокси и DNS</h3>
+                    <p>Бесплатные прокси-серверы и DNS-сервисы для обхода блокировок. Быстро, надежно, без регистрации.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="free-tag">БЕСПЛАТНО</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Ускорение трафика</h3>
+                    <p>Наши технологии оптимизации трафика доступны всем пользователям совершенно бесплатно. Максимальная скорость без оплаты.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="speedtest" id="speedtest">
+        <div class="container">
+            <h2 class="section-title">Тест скорости интернета</h2>
+            <div class="speedtest-container">
+                <h3>Проверьте скорость вашего соединения</h3>
+                <p>Измерьте пинг, джиттер, скорость загрузки и отдачи. Тест работает через наши серверы в Нидерландах и Финляндии.</p>
+                <div class="speedtest-info">
+                    <div>
+                        <span>IP-адрес</span>
+                        <strong id="ip">-</strong>
+                    </div>
+                    <div>
+                        <span>Провайдер</span>
+                        <strong id="isp">-</strong>
+                    </div>
+                    <div>
+                        <span>Сервер</span>
+                        <strong id="server">-</strong>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress"></div>
+                </div>
+                <div class="spinner" id="spinner"></div>
+                <button class="btn" id="startTest">Начать тест</button>
+                <button class="btn btn-stop" id="stopTest" style="display: none;">Остановить тест</button>
+                <div class="speedtest-results" id="results">
+                    <div>Пинг: <strong id="ping">-</strong> мс</div>
+                    <div>Джиттер: <strong id="jitter">-</strong> мс</div>
+                    <div>Скорость загрузки: <strong id="download">-</strong> Мбит/с</div>
+                    <div>Скорость отдачи: <strong id="upload">-</strong> Мбит/с</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+        <div class="telegram-embed" id="telegram">
+            <div class="telegram-logo">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h3>Все новости и конфиги в нашем Telegram</h3>
+            <p>Подпишитесь на @AstracatUI для получения новых конфигураций, обновлений и важных объявлений. Все наши сервисы остаются бесплатными.</p>
+            <a href="https://t.me/AstracatUI" class="btn">Подписаться на канал</a>
+        </div>
+        
+        <div class="status" id="status">
+            <h3>Статус инфраструктуры</h3>
+            <p>Мы поддерживаем 99.9% аптайма для наших бесплатных сервисов</p>
+            <a href="https://uptime.astracat.ru/status/astracat" target="_blank">uptime.astracat.ru/status/astracat</a>
+        </div>
+        
+        <div class="links">
+            <a href="https://t.me/astracatvpnX_bot" class="btn btn-outline">
+                <i class="fab fa-telegram"></i> Наш бот @astracatvpnX_bot
+            </a>
+        </div>
+    </div>
+    
+    <section class="support" id="support">
+        <div class="container">
+            <h2 class="section-title">Поддержка проекта</h2>
+            <div class="support-box">
+                <p>Все наши услуги полностью бесплатны и останутся такими. Однако, если вы хотите поддержать развитие проекта и помочь нам покрывать расходы на сервера, мы будем благодарны любой помощи.</p>
+                <p>Ваша поддержка помогает нам:</p>
+                <ul style="text-align: left; margin: 20px 0; color: var(--gray-9);">
+                    <li>Поддерживать и расширять серверную инфраструктуру</li>
+                    <li>Улучшать качество и стабильность соединения</li>
+                    <li>Разрабатывать новые функции и технологии</li>
+                </ul>
+                <a href="https://pay.cloudtips.ru/p/93cd5b3f" class="btn">Поддержать проект</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 ASTRACAT International. Все услуги предоставляются абсолютно бесплатно.</p>
+        </div>
+    </footer>
+
+    <script src="https://librespeed.org/assets/js/librespeed.js"></script>
+    <script>
+        // Инициализация LibreSpeed
+        const speedtest = new LibreSpeed({
+            servers: [
+                { name: "Netherlands Server", server: "https://speedtest.astracat.ru/backend/", bestPing: true },
+                { name: "Finland Server", server: "https://speedtest.astracat.fi/backend/", bestPing: true }
+            ],
+            ipInfoApi: "https://api.ipapi.co/json/",
+            telemetryLevel: "basic",
+            telemetryServer: null
+        });
+
+        const startButton = document.getElementById("startTest");
+        const stopButton = document.getElementById("stopTest");
+        const progressBar = document.getElementById("progress");
+        const spinner = document.getElementById("spinner");
+        const results = document.getElementById("results");
+        const ipElement = document.getElementById("ip");
+        const ispElement = document.getElementById("isp");
+        const serverElement = document.getElementById("server");
+        const pingElement = document.getElementById("ping");
+        const jitterElement = document.getElementById("jitter");
+        const downloadElement = document.getElementById("download");
+        const uploadElement = document.getElementById("upload");
+
+        let testRunning = false;
+
+        // Получение информации об IP и провайдере
+        async function fetchIpInfo() {
+            try {
+                const response = await fetch("https://api.ipapi.co/json/");
+                const data = await response.json();
+                ipElement.textContent = data.ip || "Неизвестно";
+                ispElement.textContent = data.org || "Неизвестно";
+            } catch (error) {
+                console.error("Ошибка получения IP:", error);
+                ipElement.textContent = "Ошибка";
+                ispElement.textContent = "Ошибка";
+            }
+        }
+
+        fetchIpInfo();
+
+        // Обновление прогресса
+        speedtest.onUpdate = (data) => {
+            if (!testRunning) return;
+            const progress = data.testProgress * 100;
+            progressBar.style.width = `${progress}%`;
+            serverElement.textContent = data.server.name || "Выбирается...";
+
+            if (data.testState === 1) {
+                pingElement.textContent = data.ping.toFixed(1);
+                jitterElement.textContent = data.jitter.toFixed(1);
+            } else if (data.testState === 2) {
+                downloadElement.textContent = data.download.toFixed(2);
+            } else if (data.testState === 3) {
+                uploadElement.textContent = data.upload.toFixed(2);
+            }
+        };
+
+        // Завершение теста
+        speedtest.onEnd = (aborted) => {
+            testRunning = false;
+            spinner.style.display = "none";
+            startButton.style.display = "block";
+            stopButton.style.display = "none";
+            progressBar.style.width = "0%";
+            results.style.display = "block";
+            if (!aborted) {
+                alert("Тест завершен!");
+            }
+        };
+
+        // Старт теста
+        startButton.addEventListener("click", () => {
+            if (testRunning) return;
+            testRunning = true;
+            results.style.display = "none";
+            spinner.style.display = "block";
+            startButton.style.display = "none";
+            stopButton.style.display = "block";
+            pingElement.textContent = "-";
+            jitterElement.textContent = "-";
+            downloadElement.textContent = "-";
+            uploadElement.textContent = "-";
+            serverElement.textContent = "Выбирается...";
+            speedtest.start();
+        });
+
+        // Остановка теста
+        stopButton.addEventListener("click", () => {
+            if (!testRunning) return;
+            speedtest.abort();
+        });
+    </script>
+</body>
+</html>
