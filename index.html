@@ -150,6 +150,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 200px;
+            justify-content: center;
+        }
+        
+        .ip-info.loading {
+            border-left: 4px solid var(--accent-color);
         }
         
         .ip-info.success {
@@ -161,16 +167,29 @@
             background: linear-gradient(90deg, rgba(255,77,77,0.05) 0%, rgba(26,26,26,1) 20%);
         }
         
-        .ip-info i.success-icon {
-            color: #00e676;
-            font-size: 2rem;
+        .ip-info i {
             margin-bottom: 1rem;
         }
         
-        .ip-info i.error-icon {
+        .loading-icon {
+            color: var(--accent-color);
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-icon {
+            color: #00e676;
+            font-size: 2rem;
+        }
+        
+        .error-icon {
             color: var(--error-color);
             font-size: 2rem;
-            margin-bottom: 1rem;
         }
         
         .ip-details {
@@ -362,8 +381,9 @@
                 </div>
             </div>
             
-            <div class="ip-info" id="ipInfo">
-                <i class="fas fa-circle-notch fa-spin"></i> Определение информации о вашем подключении...
+            <div class="ip-info loading" id="ipInfo">
+                <i class="fas fa-circle-notch loading-icon"></i>
+                <p>Определение информации о вашем подключении...</p>
             </div>
         </main>
         
@@ -375,17 +395,52 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function fetchIPInfo() {
+            async function fetchIPInfo() {
                 const ipInfoElement = document.getElementById('ipInfo');
-                ipInfoElement.className = 'ip-info';
-                ipInfoElement.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Определение информации о вашем подключении...';
+                ipInfoElement.className = 'ip-info loading';
+                ipInfoElement.innerHTML = `
+                    <i class="fas fa-circle-notch loading-icon"></i>
+                    <p>Определение информации о вашем подключении...</p>
+                `;
                 
-                fetch('https://ipapi.co/json/')
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network response was not ok');
-                        return response.json();
-                    })
-                    .then(data => {
+                try {
+                    // Пробуем первый сервис
+                    let response = await fetch('https://ipwho.is/');
+                    if (!response.ok) throw new Error('Первый сервис не ответил');
+                    
+                    let data = await response.json();
+                    
+                    ipInfoElement.className = 'ip-info success';
+                    ipInfoElement.innerHTML = `
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h3>Информация о вашем подключении</h3>
+                        <div class="ip-details">
+                            <div class="ip-detail">
+                                <i class="fas fa-network-wired"></i>
+                                <span>IP: <strong>${data.ip}</strong></span>
+                            </div>
+                            <div class="ip-detail">
+                                <i class="fas fa-server"></i>
+                                <span>Провайдер: <strong>${data.connection?.isp || 'Не определен'}</strong></span>
+                            </div>
+                            <div class="ip-detail">
+                                <i class="fas fa-globe"></i>
+                                <span>Страна: <strong>${data.country || 'Не определена'}</strong></span>
+                            </div>
+                            <div class="ip-detail">
+                                <i class="fas fa-city"></i>
+                                <span>Город: <strong>${data.city || 'Не определен'}</strong></span>
+                            </div>
+                        </div>
+                    `;
+                } catch (firstError) {
+                    try {
+                        // Если первый сервис не сработал, пробуем резервный
+                        let backupResponse = await fetch('https://api.ipgeolocation.io/ipgeo?apiKey=demo');
+                        if (!backupResponse.ok) throw new Error('Резервный сервис не ответил');
+                        
+                        let backupData = await backupResponse.json();
+                        
                         ipInfoElement.className = 'ip-info success';
                         ipInfoElement.innerHTML = `
                             <i class="fas fa-check-circle success-icon"></i>
@@ -393,35 +448,36 @@
                             <div class="ip-details">
                                 <div class="ip-detail">
                                     <i class="fas fa-network-wired"></i>
-                                    <span>IP: <strong>${data.ip}</strong></span>
+                                    <span>IP: <strong>${backupData.ip}</strong></span>
                                 </div>
                                 <div class="ip-detail">
                                     <i class="fas fa-server"></i>
-                                    <span>Провайдер: <strong>${data.org || 'Не определен'}</strong></span>
+                                    <span>Провайдер: <strong>${backupData.isp || 'Не определен'}</strong></span>
                                 </div>
                                 <div class="ip-detail">
                                     <i class="fas fa-globe"></i>
-                                    <span>Страна: <strong>${data.country_name}</strong></span>
+                                    <span>Страна: <strong>${backupData.country_name || 'Не определена'}</strong></span>
                                 </div>
                                 <div class="ip-detail">
                                     <i class="fas fa-city"></i>
-                                    <span>Город: <strong>${data.city || 'Не определен'}</strong></span>
+                                    <span>Город: <strong>${backupData.city || 'Не определен'}</strong></span>
                                 </div>
                             </div>
                         `;
-                    })
-                    .catch(error => {
+                    } catch (finalError) {
                         ipInfoElement.className = 'ip-info error';
                         ipInfoElement.innerHTML = `
                             <i class="fas fa-exclamation-triangle error-icon"></i>
                             <h3>Не удалось определить информацию</h3>
-                            <p>Проверьте подключение к интернету</p>
+                            <p>Для отображения данных разрешите определение местоположения или проверьте подключение</p>
                             <button class="btn-retry" onclick="fetchIPInfo()">
                                 <i class="fas fa-sync-alt"></i>
                                 Попробовать снова
                             </button>
                         `;
-                    });
+                        console.error('Ошибка получения IP информации:', finalError);
+                    }
+                }
             }
             
             fetchIPInfo();
